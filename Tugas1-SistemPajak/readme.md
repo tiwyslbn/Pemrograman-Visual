@@ -2,12 +2,13 @@
 
 Aplikasi desktop berbasis **VB.NET Windows Forms** yang terdiri dari dua form: form **Login** (dengan validasi role, nama, dan NIM) dan form **Perhitungan Pajak** (berdasarkan jumlah pendapatan).
 
+| | |
 |---|---|
-| **Mata Kuliah** | Pemrograman Visual |
-| **Bahasa** | Visual Basic .NET (VB.NET) |
-| **Platform** | .NET / Windows Forms |
-| **Nama** | Tiwy Lamberkat Silaban|
+| **Nama** | Tiwy Lamberkat Silaban |
 | **NIM** | 241712001 |
+| **Kelas** | KOM A1 |
+| **Mata Kuliah** | Praktikum Pemrograman Visual |
+| **Tugas Ke-** | 1 |
 
 ---
 
