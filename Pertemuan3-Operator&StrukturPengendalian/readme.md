@@ -1,6 +1,7 @@
 # Laporan Praktikum Pemrograman Visual
 ### Pertemuan 03 — Operator, Struktur Kendali, dan Validasi Input pada VB.NET
 
+| | |
 |---|---|
 | **Nama** | Tiwy Lamberkat Silaban |
 | **NIM** | 241712001 |
