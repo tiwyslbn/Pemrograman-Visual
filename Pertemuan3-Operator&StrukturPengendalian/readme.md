@@ -7,7 +7,7 @@
 | **NIM** | 241712001 |
 | **Kelas** | KOM A1 |
 | **Mata Kuliah** | Praktikum Pemrograman Visual |
-| **Pertemuan Ke-** | 1 |
+| **Pertemuan Ke-** | 3 |
 
 ---
 
