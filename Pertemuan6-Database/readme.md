@@ -1,18 +1,13 @@
-# Menghubungkan VB.NET ke Supabase (PostgreSQL) dengan Npgsql
+# Laporan Praktikum Pemrograman Visual
+### Pertemuan 06 — Menghubungkan VB.NET ke Supabase (PostgreSQL) dengan Npgsql
 
-Panduan ini membahas cara membuat aplikasi Windows Forms berbasis VB.NET yang menyimpan data ke database Supabase. Studi kasusnya adalah **pendataan koleksi buku perpustakaan**.
-
-## Daftar Isi
-
-1. [Landasan Teori](#1-landasan-teori)
-2. [Menyiapkan Supabase dan Proyek](#2-menyiapkan-supabase-dan-proyek)
-3. [Mengatur Koneksi](#3-mengatur-koneksi)
-4. [Arsitektur Kode](#4-arsitektur-kode)
-5. [Operasi CRUD](#5-operasi-crud)
-6. [Alternatif: DataAdapter dan CommandBuilder](#6-alternatif-dataadapter-dan-commandbuilder)
-7. [Keamanan dan Pemecahan Masalah](#7-keamanan-dan-pemecahan-masalah)
-
----
+| | |
+|---|---|
+| **Nama** | Tiwy Lamberkat Silaban |
+| **NIM** | 241712001 |
+| **Kelas** | KOM A1 |
+| **Mata Kuliah** | Praktikum Pemrograman Visual |
+| **Pertemuan Ke-** | 6 |
 
 ## 1. Landasan Teori
 
