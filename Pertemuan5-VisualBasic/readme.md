@@ -1,4 +1,13 @@
-# Modul, Data, Fungsi, dan Array pada Visual Basic .NET
+# Laporan Praktikum Pemrograman Visual
+### Pertemuan 05 — Modul, Data, Fungsi, dan Array pada Visual Basic .NET
+
+| | |
+|---|---|
+| **Nama** | Tiwy Lamberkat Silaban |
+| **NIM** | 241712001 |
+| **Kelas** | KOM A1 |
+| **Mata Kuliah** | Praktikum Pemrograman Visual |
+| **Pertemuan Ke-** | 5 |
 
 Catatan praktikum ini membahas empat topik dasar: modul, variabel dan tipe data, fungsi dan prosedur, serta array. Seluruh contoh memakai tema **toko** (barang, harga, stok).
 
