@@ -1,4 +1,4 @@
-# PERTEMUAN 07 — PRAKTIKUM
+# PERTEMUAN 7 — Validasi Input
 
 ### Penerapan Validasi Input, Penanganan Error, dan Naming Convention pada VB.NET
 
