@@ -1,4 +1,13 @@
-# Pertemuan 11: Windows API pada VB.NET
+# Laporan Praktikum Pemrograman Visual
+### Pertemuan 11 — Windows API pada VB.NET
+
+| | |
+|---|---|
+| **Nama** | Tiwy Lamberkat Silaban |
+| **NIM** | 241712001 |
+| **Kelas** | KOM A1 |
+| **Mata Kuliah** | Praktikum Pemrograman Visual |
+| **Pertemuan Ke-** | 11 |
 
 **DemoWindowsApi** adalah aplikasi Windows Forms berupa *timer presentasi* yang memanfaatkan fungsi-fungsi Windows API lewat P/Invoke. Aplikasi ini membuktikan bahwa fitur yang tidak disediakan langsung oleh .NET (jendela selalu di atas, shortcut global, bunyi sistem) tetap bisa dipakai dengan memanggil pustaka bawaan Windows.
 
