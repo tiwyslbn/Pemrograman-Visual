@@ -1,8 +1,13 @@
-# PERTEMUAN 7 — Validasi Input
+# Laporan Praktikum Pemrograman Visual
+### Pertemuan 07 — Validasi Input
 
-### Penerapan Validasi Input, Penanganan Error, dan Naming Convention pada VB.NET
-
----
+| | |
+|---|---|
+| **Nama** | Tiwy Lamberkat Silaban |
+| **NIM** | 241712001 |
+| **Kelas** | KOM A1 |
+| **Mata Kuliah** | Praktikum Pemrograman Visual |
+| **Pertemuan Ke-** | 7 |
 
 ## 1. Gambaran Umum Praktikum
 
