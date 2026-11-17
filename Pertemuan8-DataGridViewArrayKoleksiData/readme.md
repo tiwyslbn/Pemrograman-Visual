@@ -1,12 +1,13 @@
-<div align="center">
+# Laporan Praktikum Pemrograman Visual
+### Pertemuan 08 — Validasi Input
 
-# PERTEMUAN 08
-
-### DataGridView, Pengolahan Array, dan Data Binding Koleksi pada VB.NET
-
-</div>
-
----
+| | |
+|---|---|
+| **Nama** | Tiwy Lamberkat Silaban |
+| **NIM** | 241712001 |
+| **Kelas** | KOM A1 |
+| **Mata Kuliah** | Praktikum Pemrograman Visual |
+| **Pertemuan Ke-** | 8 |
 
 ## 1. Gambaran Umum Praktikum
 
