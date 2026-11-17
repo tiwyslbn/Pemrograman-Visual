@@ -1,20 +1,16 @@
-# Pertemuan 12: Administrasi Mahasiswa dengan MDI
+# Laporan Praktikum Pemrograman Visual
+### Pertemuan 12 — Administrasi Mahasiswa dengan MDI
+
+| | |
+|---|---|
+| **Nama** | Tiwy Lamberkat Silaban |
+| **NIM** | 241712001 |
+| **Kelas** | KOM A1 |
+| **Mata Kuliah** | Praktikum Pemrograman Visual |
+| **Pertemuan Ke-** | 12 | 
 
 Proyek **AdministrasiMahasiswaMdi** adalah aplikasi Windows Forms (VB.NET, .NET 10) yang dirancang memakai **MDI** (*Multiple Document Interface*): satu jendela induk yang menampung beberapa jendela anak di dalamnya.
 
-## Daftar Isi
-
-1. [Konsep MDI](#1-konsep-mdi)
-2. [Status Proyek Saat Ini](#2-status-proyek-saat-ini)
-3. [Struktur Proyek](#3-struktur-proyek)
-4. [Langkah Membuat Form Induk MDI](#4-langkah-membuat-form-induk-mdi)
-5. [Membuat dan Membuka Form Anak](#5-membuat-dan-membuka-form-anak)
-6. [Mengatur Tata Letak Jendela](#6-mengatur-tata-letak-jendela)
-7. [Properti dan Event Penting](#7-properti-dan-event-penting)
-8. [Menjalankan Proyek](#8-menjalankan-proyek)
-9. [Masalah Umum](#9-masalah-umum)
-
----
 
 ## 1. Konsep MDI
 
