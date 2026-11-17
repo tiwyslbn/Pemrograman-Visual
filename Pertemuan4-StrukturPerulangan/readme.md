@@ -1,4 +1,13 @@
-# Perulangan (Looping) pada Visual Basic .NET
+# Laporan Praktikum Pemrograman Visual
+### Pertemuan 04 — Perulangan (Looping) pada Visual Basic .NET
+
+| | |
+|---|---|
+| **Nama** | Tiwy Lamberkat Silaban |
+| **NIM** | 241712001 |
+| **Kelas** | KOM A1 |
+| **Mata Kuliah** | Praktikum Pemrograman Visual |
+| **Pertemuan Ke-** | 4 |
 
 ## 1. Konsep Dasar
 
