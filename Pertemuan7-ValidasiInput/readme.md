@@ -1,472 +1,250 @@
-PERTEMUAN 07
-Implementasi Validasi Data, Penanganan Kesalahan, dan Standar Penamaan Kontrol pada VB.NET
-1. Pendahuluan
+# PERTEMUAN 07 — PRAKTIKUM
 
-Pada pertemuan ketujuh ini, praktikum membahas bagaimana membangun aplikasi Windows Forms menggunakan VB.NET dengan memperhatikan ketepatan data, keamanan proses, dan keteraturan penulisan kode.
+### Penerapan Validasi Input, Penanganan Error, dan Naming Convention pada VB.NET
 
-Dalam pembuatan aplikasi, kesalahan input maupun kesalahan saat program dijalankan merupakan hal yang sering terjadi. Oleh karena itu, diperlukan mekanisme untuk memastikan data yang dimasukkan pengguna sesuai dengan ketentuan sebelum diproses lebih lanjut.
+---
 
-Terdapat tiga materi utama yang dipelajari dalam praktikum ini:
+## 1. Gambaran Umum Praktikum
 
-Naming Convention, yaitu penggunaan aturan penamaan pada komponen form agar kode lebih mudah dipahami dan dikelola.
-Error Handling, yaitu teknik menangani kesalahan yang muncul selama program berjalan agar aplikasi tidak langsung berhenti.
-Input Validation, yaitu proses pemeriksaan data pengguna sebelum data disimpan atau digunakan.
+Kegiatan praktikum ini membahas cara membangun aplikasi **Windows Forms (VB.NET)** yang lebih terstruktur, mudah dipelihara, serta mampu menangani kondisi yang tidak diharapkan. Pembahasan mencakup tiga aspek utama berikut:
 
-Sebagai penerapan dari ketiga materi tersebut, dibuat aplikasi pendaftaran mahasiswa yang memiliki fitur pemeriksaan NIM, nama, jurusan, tahun angkatan, dan IPK. Aplikasi juga dilengkapi fasilitas penyimpanan data sementara serta ekspor ke format CSV.
+1. **Konvensi Penamaan Kontrol ( *Naming Convention* )**: Mengubah nama bawaan seperti `Button1` atau `TextBox1` menjadi format `prefix + NamaFungsi` agar fungsi setiap kontrol lebih mudah dikenali.
+2. **Penanganan Error ( *Error Handling* )**: Mengenali error *Syntax*, *Runtime/Exception*, dan *Logic*, lalu menangani kesalahan saat program berjalan melalui `Try...Catch...Finally` serta beberapa blok `Catch`.
+3. **Validasi Input**: Memeriksa data sebelum diproses dengan `TryParse`, fungsi validasi buatan sendiri, dan komponen `ErrorProvider` untuk menampilkan pemberitahuan kesalahan secara langsung.
 
-2. Persiapan dan Perancangan Form
+Contoh penerapannya berupa **Formulir Pendaftaran Mahasiswa**. Form ini memeriksa NIM unik yang terdiri dari 9 digit, kelengkapan nama, tahun angkatan, nilai IPK dalam format desimal, dan pilihan jurusan. Data yang sudah dimasukkan juga dapat diekspor ke berkas CSV.
 
-Sebelum menuliskan program, terlebih dahulu dilakukan penyusunan tampilan menggunakan Windows Forms Designer.
+---
 
-Form utama dirancang dengan beberapa komponen yang memiliki tugas masing-masing. Setiap komponen diberikan nama khusus agar tidak menggunakan nama bawaan Visual Studio.
+## 2. Susunan Komponen Antarmuka (Kontrol UI)
 
-2.1 Daftar Komponen
-Komponen	Nama Kontrol	Fungsi
-Form	FrmPendaftaran	Menjadi halaman utama aplikasi
-Label	lblJudul	Menampilkan judul aplikasi
-Label	lblStatus	Memberikan informasi hasil proses
-TextBox	txtNim	Memasukkan nomor induk mahasiswa
-TextBox	txtNama	Mengisi nama lengkap
-ComboBox	cboJurusan	Menentukan program studi
-TextBox	txtAngkatan	Menginput tahun masuk mahasiswa
-TextBox	txtIpk	Menginput nilai IPK
-Button	btnSimpan	Menambahkan data mahasiswa
-Button	btnBersihkan	Menghapus seluruh input
-Button	btnEkspor	Menyimpan data ke CSV
-ListBox	lstMahasiswa	Menampilkan data yang telah dimasukkan
-ErrorProvider	errInput	Memberikan tanda pada input yang salah
-2.2 Pengaturan Properti Kontrol
+Berikut daftar kontrol yang digunakan pada form beserta nama dan kegunaannya:
 
-Beberapa properti perlu disesuaikan agar komponen bekerja sesuai kebutuhan:
+| **Kontrol UI**    | **Identitas`(Name)`** | **Properti Kunci**              | **Deskripsi Fungsional**                                              |
+| ----------------- | --------------------- | ------------------------------- | --------------------------------------------------------------------- |
+| **Formulir**      | `FrmPendaftaran`      | `Text: "Pendaftaran Mahasiswa"` | Jendela utama aplikasi pendaftaran                                    |
+| **Label**         | `lblJudul`            | `Text: "Pendaftaran Mahasiswa"` | Menampilkan judul formulir                                                           |
+| **Label**         | `lblStatus`           | `Text: "Siap."`                 | Menampilkan informasi proses, keberhasilan, atau peringatan                 |
+| **Kotak Teks**    | `txtNim`              | `MaxLength: 9`                  | Input Nomor Induk Mahasiswa (tepat 9 digit angka)                     |
+| **Kotak Teks**    | `txtNama`             | `Text: ""`                      | Kolom nama lengkap yang harus diisi                               |
+| **Kotak Kombo**   | `cboJurusan`          | `DropDownStyle: DropDownList`   | Pilihan program studi / jurusan                                       |
+| **Kotak Teks**    | `txtAngkatan`         | `Text: ""`                      | Memasukkan tahun angkatan dari 2015 hingga tahun berjalan                 |
+| **Kotak Teks**    | `txtIpk`              | `Text: ""`                      | Memasukkan IPK dengan nilai 0,00 sampai 4,00                                |
+| **Tombol**        | `btnSimpan`           | `Text: "Simpan"`                | Memeriksa isian lalu menyimpan data ke daftar            |
+| **Tombol**        | `btnBersihkan`        | `Text: "Bersihkan"`             | Menghapus isi formulir sekaligus tanda kesalahan             |
+| **Tombol**        | `btnEkspor`           | `Text: "Ekspor ke CSV"`         | Menyimpan daftar mahasiswa dalam format CSV                    |
+| **Kotak Daftar**  | `lstMahasiswa`        | `FormattingEnabled: True`       | Menampilkan data mahasiswa yang berhasil dimasukkan             |
+| **ErrorProvider** | `errInput`            | `BlinkStyle: NeverBlink`        | Memberi indikator pada kontrol yang berisi input tidak valid |
 
-FrmPendaftaran: judul form diatur menjadi Pendaftaran Mahasiswa.
-txtNim: menggunakan MaxLength = 9 untuk membatasi panjang input.
-cboJurusan: menggunakan DropDownStyle = DropDownList agar pengguna hanya dapat memilih pilihan yang tersedia.
-lstMahasiswa: mengaktifkan FormattingEnabled.
-errInput: menggunakan BlinkStyle = NeverBlink agar ikon kesalahan tidak berkedip.
+---
 
-Pada ComboBox, pilihan jurusan dapat ditambahkan melalui Properties bagian Items, misalnya Teknik Informatika, Sistem Informasi, dan Manajemen Informatika.
+## 3. Implementasi Logika Program
 
-3. Implementasi Program
-3.1 Pembuatan Modul Pemeriksaan Data
+### 3.1`ModValidasi.vb`
 
-File ModValidasi.vb digunakan untuk menyimpan fungsi pemeriksaan data yang dapat dipanggil dari berbagai bagian program.
+Modul ini menyediakan beberapa fungsi pemeriksaan sederhana yang bisa dipanggil kembali dari bagian program lain:
 
-Dengan memisahkan fungsi validasi ke dalam modul, kode utama form menjadi lebih sederhana dan tidak perlu menuliskan pemeriksaan yang sama berulang kali.
-
-vb
+```
 Option Strict On
 Imports System.Globalization
 
 Public Module ModValidasi
 
-    ' Memastikan input memiliki isi
-    Public Function CekKosong(teks As String) As Boolean
-        Return String.IsNullOrWhiteSpace(teks)
+    ' Memeriksa apakah string kosong atau hanya berisi spasi putih
+    Public Function Kosong(teks As String) As Boolean
+        Return teks.Trim() = ""
     End Function
 
-    ' Memastikan input hanya berisi angka sesuai jumlah digit
-    Public Function CekDigit(teks As String, jumlah As Integer) As Boolean
-        If teks.Length <> jumlah Then Return False
-
+    ' Memeriksa apakah teks memiliki panjang tepat dan hanya terdiri atas karakter digit (0-9)
+    Public Function SemuaDigit(teks As String, panjang As Integer) As Boolean
+        If teks.Length <> panjang Then Return False
         For Each karakter As Char In teks
-            If Not Char.IsDigit(karakter) OrElse
-               karakter < "0"c OrElse karakter > "9"c Then
-                Return False
-            End If
+            If karakter < "0"c OrElse karakter > "9"c Then Return False
         Next
-
         Return True
     End Function
 
-    ' Membaca nilai desimal dengan format koma atau titik
-    Public Function ParseDesimal(teks As String,
-                                 ByRef nilai As Decimal) As Boolean
-
-        Dim input As String = teks.Trim().Replace(",", ".")
-
-        Return Decimal.TryParse(
-            input,
-            NumberStyles.AllowDecimalPoint,
-            CultureInfo.InvariantCulture,
-            nilai
-        )
+    ' Mengonversi string ke Decimal secara aman dengan menerima pemisah koma maupun titik
+    Public Function CobaDesimal(teks As String, ByRef hasil As Decimal) As Boolean
+        Dim teksTitik As String = teks.Trim().Replace(",", ".")
+        Return Decimal.TryParse(teksTitik, NumberStyles.AllowDecimalPoint,
+                                CultureInfo.InvariantCulture, hasil)
     End Function
 
 End Module
+```
 
+### 3.2`FrmPendaftaran.vb`
 
-Penjelasan:
+Bagian ini merupakan kode utama form pendaftaran, mulai dari pemeriksaan data hingga proses penyimpanan dan ekspor:
 
-CekKosong() digunakan untuk memeriksa apakah pengguna belum mengisi suatu kolom.
-CekDigit() memastikan panjang dan karakter input NIM sesuai ketentuan.
-ParseDesimal() menangani konversi IPK agar dapat membaca angka dengan tanda koma maupun titik.
-
-Penggunaan fungsi terpisah membuat proses pemeriksaan lebih terorganisasi dan mudah digunakan kembali.
-
-3.2 Program Form Pendaftaran Mahasiswa
-
-File FrmPendaftaran.vb menjadi pusat pengolahan data. Pada bagian ini diterapkan pemeriksaan input, pengecekan NIM ganda, penyimpanan ke ListBox, dan penulisan file CSV.
-
-vb
+```
 Option Strict On
-Imports System.IO
 Imports System.ComponentModel
+Imports System.IO
 
 Public Class FrmPendaftaran
 
-    Private ReadOnly dataNim As New List(Of String)
+    ' Koleksi lokal untuk verifikasi keunikan NIM (mencegah duplikasi data)
+    Private ReadOnly daftarNim As New List(Of String)
 
-    Private ReadOnly fileTujuan As String =
-        Path.Combine(
-            Environment.GetFolderPath(
-                Environment.SpecialFolder.MyDocuments),
-            "DataPendaftaran.csv"
-        )
+    ' Lokasi tujuan ekspor file CSV di direktori dokumen pengguna
+    Private ReadOnly lokasiEkspor As String =
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "data-mahasiswa.csv")
 
-    ' Pemeriksaan semua kolom sebelum data diproses
-    Private Function PeriksaForm() As Boolean
+    ' Memeriksa seluruh masukan formulir dan memasang ikon error jika tidak valid
+    Private Function ValidasiInput() As Boolean
+        errInput.Clear() ' Bersihkan tanda error sebelumnya
+        Dim valid As Boolean = True
 
-        errInput.Clear()
-        Dim status As Boolean = True
-
-        If CekKosong(txtNama.Text) Then
-            errInput.SetError(txtNama, "Nama belum diisi.")
-            status = False
+        ' 1. Validasi Wajib Isi: Nama
+        If Kosong(txtNama.Text) Then
+            errInput.SetError(txtNama, "Nama wajib diisi.")
+            valid = False
         End If
 
-        Dim tahun As Integer
-
-        If Not Integer.TryParse(txtAngkatan.Text, tahun) OrElse
-           tahun < 2015 OrElse tahun > Date.Today.Year Then
-
-            errInput.SetError(
-                txtAngkatan,
-                "Masukkan tahun angkatan yang sesuai."
-            )
-            status = False
+        ' 2. Validasi Tipe Data & Rentang: Angkatan
+        Dim angkatan As Integer
+        If Not Integer.TryParse(txtAngkatan.Text, angkatan) OrElse
+           angkatan < 2015 OrElse angkatan > Date.Today.Year Then
+            errInput.SetError(txtAngkatan, "Angkatan harus angka 2015 s.d. tahun ini.")
+            valid = False
         End If
 
-        If Not CekDigit(txtNim.Text, 9) Then
-
-            errInput.SetError(txtNim, "NIM wajib terdiri dari 9 digit.")
-
-            status = False
-
-        ElseIf dataNim.Contains(txtNim.Text) Then
-
-            errInput.SetError(txtNim, "NIM tersebut sudah digunakan.")
-            status = False
-
+        ' 3. Validasi Format & Keunikan: NIM
+        If Not SemuaDigit(txtNim.Text, 9) Then
+            errInput.SetError(txtNim, "NIM harus 9 digit angka.")
+            valid = False
+        ElseIf daftarNim.Contains(txtNim.Text) Then
+            errInput.SetError(txtNim, "NIM sudah terdaftar.")
+            valid = False
         End If
 
-        If cboJurusan.SelectedIndex < 0 Then
-            errInput.SetError(cboJurusan, "Jurusan belum dipilih.")
-            status = False
+        ' 4. Validasi Pemilihan: ComboBox Jurusan
+        If cboJurusan.SelectedIndex = -1 Then
+            errInput.SetError(cboJurusan, "Pilih salah satu jurusan.")
+            valid = False
         End If
 
-        Dim nilaiIpk As Decimal
-
-        If Not ParseDesimal(txtIpk.Text, nilaiIpk) OrElse
-           nilaiIpk < 0D OrElse nilaiIpk > 4D Then
-
-            errInput.SetError(txtIpk, "IPK harus berada antara 0 sampai 4.")
-            status = False
-
+        ' 5. Validasi Angka Pecahan & Rentang: IPK
+        Dim ipk As Decimal
+        If Not CobaDesimal(txtIpk.Text, ipk) OrElse ipk < 0D OrElse ipk > 4D Then
+            errInput.SetError(txtIpk, "IPK harus angka 0,00 s.d. 4,00.")
+            valid = False
         End If
 
-        Return status
-
+        Return valid
     End Function
 
-    ' Menyimpan data setelah seluruh pemeriksaan berhasil
-    Private Sub btnSimpan_Click(sender As Object,
-                                e As EventArgs) Handles btnSimpan.Click
-
-        If Not PeriksaForm() Then
-            lblStatus.Text = "Masih terdapat data yang belum sesuai."
+    ' Event Handler Tombol Simpan (Pola: Validasi Dulu, Keluar Jika Gagal)
+    Private Sub btnSimpan_Click(sender As Object, e As EventArgs) Handles btnSimpan.Click
+        If Not ValidasiInput() Then
+            lblStatus.Text = "Periksa isian yang bertanda merah."
             Return
         End If
 
+        ' Konversi data (terjamin berhasil karena telah lolos validasi)
         Dim ipk As Decimal
-        ParseDesimal(txtIpk.Text, ipk)
+        CobaDesimal(txtIpk.Text, ipk)
 
-        Dim data As String =
-            txtNim.Text & " | " &
-            txtNama.Text.Trim() & " | " &
-            cboJurusan.Text & " | " &
-            txtAngkatan.Text & " | " &
-            ipk.ToString("0.00")
+        lstMahasiswa.Items.Add(txtNim.Text & " | " & txtNama.Text.Trim() & " | " &
+                               cboJurusan.Text & " | " & txtAngkatan.Text & " | " & ipk.ToString("0.00"))
+        daftarNim.Add(txtNim.Text)
 
-        lstMahasiswa.Items.Add(data)
-        dataNim.Add(txtNim.Text)
-
-        lblStatus.Text = "Pendaftaran berhasil disimpan."
-
-        ResetInput()
-
+        lblStatus.Text = "Data " & txtNama.Text.Trim() & " tersimpan."
+        BersihkanForm()
     End Sub
 
-    ' Pemeriksaan NIM ketika pengguna meninggalkan kolom
-    Private Sub txtNim_Validating(
-        sender As Object,
-        e As CancelEventArgs
-    ) Handles txtNim.Validating
-
-        If String.IsNullOrWhiteSpace(txtNim.Text) Then Return
-
-        If Not CekDigit(txtNim.Text, 9) Then
-            errInput.SetError(txtNim, "Format NIM tidak sesuai.")
-        ElseIf dataNim.Contains(txtNim.Text) Then
-            errInput.SetError(txtNim, "NIM sudah terdaftar.")
-        Else
+    ' Validasi individual saat fokus keluar dari kontrol NIM
+    Private Sub txtNim_Validating(sender As Object, e As CancelEventArgs) Handles txtNim.Validating
+        If txtNim.Text = "" Then Return
+        If SemuaDigit(txtNim.Text, 9) Then
             errInput.SetError(txtNim, "")
+        Else
+            errInput.SetError(txtNim, "NIM harus 9 digit angka.")
         End If
-
     End Sub
 
-    ' Menuliskan data ke dalam file CSV
-    Private Sub btnEkspor_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnEkspor.Click
-
-        If lstMahasiswa.Items.Count = 0 Then
-            lblStatus.Text = "Belum ada data untuk diekspor."
-            Return
-        End If
-
+    ' Ekspor data ke file CSV dengan penanganan exception I/O
+    Private Sub btnEkspor_Click(sender As Object, e As EventArgs) Handles btnEkspor.Click
+        Dim penulis As StreamWriter = Nothing
         Try
-
-            Using penulis As New StreamWriter(fileTujuan)
-
-                For Each item As Object In lstMahasiswa.Items
-                    penulis.WriteLine(
-                        item.ToString().Replace(" | ", ";")
-                    )
-                Next
-
-            End Using
-
-            lblStatus.Text = "Ekspor data berhasil dilakukan."
-
-        Catch ex As UnauthorizedAccessException
-
-            MessageBox.Show(
-                "Aplikasi tidak memiliki izin menulis file."
-            )
-
+            penulis = New StreamWriter(lokasiEkspor)
+            For Each baris As Object In lstMahasiswa.Items
+                penulis.WriteLine(baris.ToString().Replace(" | ", ";"))
+            Next
+            lblStatus.Text = "Data diekspor ke " & lokasiEkspor
         Catch ex As IOException
-
-            MessageBox.Show(
-                "Terjadi masalah ketika menyimpan file: " & ex.Message
-            )
-
+            MessageBox.Show("File sedang dipakai program lain atau tidak bisa ditulis." &
+                            vbCrLf & ex.Message, "Ekspor Gagal")
         Finally
-
-            ' Bagian ini dijalankan setelah proses ekspor selesai
-
+            If penulis IsNot Nothing Then penulis.Close() ' Menjamin file stream selalu ditutup
         End Try
-
     End Sub
 
-    ' Mengembalikan seluruh komponen ke kondisi awal
-    Private Sub ResetInput()
-
+    Private Sub BersihkanForm()
         txtNim.Clear()
         txtNama.Clear()
         txtAngkatan.Clear()
         txtIpk.Clear()
-
         cboJurusan.SelectedIndex = -1
-
         errInput.Clear()
         txtNim.Focus()
-
     End Sub
 
-    Private Sub btnBersihkan_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnBersihkan.Click
-
-        ResetInput()
-        lblStatus.Text = "Seluruh kolom telah dikosongkan."
-
+    Private Sub btnBersihkan_Click(sender As Object, e As EventArgs) Handles btnBersihkan.Click
+        BersihkanForm()
+        lblStatus.Text = "Form dibersihkan."
     End Sub
 
 End Class
+```
 
+### 3.3`FrmUjiKonversi.vb`
 
-Penjelasan alur program:
+Form pengujian berikut digunakan untuk membandingkan cara kerja konversi `CInt`, `Val`, dan `TryParse`, sekaligus mencoba penanganan beberapa jenis exception:
 
-Pengguna mengisi informasi mahasiswa pada form.
-Ketika tombol Simpan ditekan, fungsi PeriksaForm() memeriksa seluruh kolom.
-Jika ditemukan kesalahan, ErrorProvider akan memberikan tanda pada bagian yang bermasalah.
-Jika seluruh data benar, informasi dimasukkan ke ListBox.
-NIM yang berhasil disimpan dimasukkan ke dalam List agar tidak dapat digunakan kembali.
-Tombol Ekspor akan menuliskan seluruh data ke file CSV di folder Documents.
-
-Penggunaan Using pada proses penulisan file membantu memastikan StreamWriter ditutup secara otomatis setelah proses selesai, termasuk ketika terjadi exception.
-
-3.3 Form Pengujian Konversi Data
-
-Selain aplikasi pendaftaran, dibuat form tambahan bernama FrmUjiKonversi.vb untuk mengetahui perbedaan beberapa metode konversi angka.
-
-Komponen yang dibutuhkan:
-
-txtInput: tempat memasukkan teks.
-lblHasil: menampilkan hasil pengujian.
-btnCInt: menguji fungsi CInt.
-btnVal: menguji fungsi Val.
-btnTryParse: menguji Integer.TryParse.
-btnCatchBertingkat: menguji beberapa jenis exception.
-
-Berikut contoh implementasinya:
-
-vb
+```
 Option Strict On
-
 Public Class FrmUjiKonversi
 
-    Private Sub btnCInt_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnCInt.Click
-
-        Try
-            Dim angka As Integer = CInt(txtInput.Text)
-            lblHasil.Text = "Hasil konversi: " & angka.ToString()
-
-        Catch ex As Exception
-            lblHasil.Text = "Konversi gagal: " & ex.Message
-        End Try
-
+    Private Sub btnCInt_Click(sender As Object, e As EventArgs) Handles btnCInt.Click
+        ' Melempar InvalidCastException jika input non-numerik (Program Crash tanpa penanganan)
+        Dim angka As Integer = CInt(txtInput.Text)
+        lblHasil.Text = "CInt berhasil: " & angka.ToString()
     End Sub
 
-    Private Sub btnVal_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnVal.Click
-
+    Private Sub btnVal_Click(sender As Object, e As EventArgs) Handles btnVal.Click
+        ' Tidak pernah error, namun menghasilkan angka parsial keliru ("12abc" -> 12)
         Dim angka As Double = Val(txtInput.Text)
-
-        lblHasil.Text = "Nilai dari Val: " & angka.ToString()
-
+        lblHasil.Text = "Val menghasilkan: " & angka.ToString()
     End Sub
 
-    Private Sub btnTryParse_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnTryParse.Click
-
+    Private Sub btnTryParse_Click(sender As Object, e As EventArgs) Handles btnTryParse.Click
+        ' Mengembalikan Boolean tanpa crash
         Dim angka As Integer
-
         If Integer.TryParse(txtInput.Text, angka) Then
-            lblHasil.Text = "Input valid, hasil: " & angka.ToString()
+            lblHasil.Text = "Valid. Nilai angka = " & angka.ToString()
         Else
-            lblHasil.Text = "Input tidak dapat dikonversi menjadi Integer."
+            lblHasil.Text = "Bukan bilangan bulat yang valid. Tidak ada exception."
         End If
-
     End Sub
 
-    Private Sub btnCatchBertingkat_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnCatchBertingkat.Click
-
+    Private Sub btnCatchBertingkat_Click(sender As Object, e As EventArgs) Handles btnCatchBertingkat.Click
         Try
-
             Dim angka As Integer = Integer.Parse(txtInput.Text)
             Dim hasil As Integer = 1000 \ angka
-
-            lblHasil.Text = "Hasil pembagian: " & hasil.ToString()
-
+            lblHasil.Text = "1000 \ " & angka.ToString() & " = " & hasil.ToString()
         Catch ex As FormatException
-
-            lblHasil.Text = "Kesalahan: format input tidak sesuai."
-
+            lblHasil.Text = "Format salah: input bukan bilangan bulat."
         Catch ex As OverflowException
-
-            lblHasil.Text = "Kesalahan: nilai melebihi kapasitas Integer."
-
+            lblHasil.Text = "Angka terlalu besar untuk tipe Integer."
         Catch ex As DivideByZeroException
-
-            lblHasil.Text = "Kesalahan: angka tidak boleh nol."
-
+            lblHasil.Text = "Pembagian dengan nol tidak diperbolehkan."
         Catch ex As Exception
-
-            lblHasil.Text = "Kesalahan lainnya: " & ex.Message
-
+            lblHasil.Text = "Error lain: " & ex.Message
         End Try
-
     End Sub
 
 End Class
-
-
-Catatan: Pada contoh ini, CInt dibungkus dengan Try...Catch agar kesalahan konversi dapat ditampilkan tanpa menghentikan aplikasi.
-
-4. Pemahaman Materi Praktikum
-4.1 Pentingnya Naming Convention
-
-Naming Convention merupakan aturan pemberian nama pada variabel, fungsi, maupun komponen antarmuka.
-
-Dalam VB.NET, nama kontrol yang masih menggunakan nama bawaan seperti Button1 atau TextBox1 dapat menyulitkan proses pembacaan kode ketika jumlah komponen semakin banyak.
-
-Oleh sebab itu, digunakan prefix yang menunjukkan jenis kontrol.
-
-Contohnya:
-
-Prefix	Jenis Kontrol	Contoh
-txt	TextBox	txtNama
-btn	Button	btnSimpan
-lbl	Label	lblStatus
-cbo	ComboBox	cboJurusan
-lst	ListBox	lstMahasiswa
-err	ErrorProvider	errInput
-frm	Form	FrmPendaftaran
-
-Dengan sistem tersebut, programmer dapat mengetahui fungsi sebuah komponen hanya dengan melihat namanya.
-
-4.2 Mengenali Jenis Kesalahan Program
-
-Kesalahan dalam pemrograman dapat dikelompokkan menjadi tiga jenis.
-
-A. Syntax Error
-
-Kesalahan yang terjadi akibat penulisan kode tidak sesuai aturan bahasa pemrograman.
-
-Contohnya:
-
-Kurang menuliskan tanda kurung.
-Salah menuliskan nama keyword.
-Tidak menutup blok If atau Sub.
-
-Kesalahan ini biasanya diketahui ketika proses kompilasi dilakukan.
-
-B. Runtime Error
-
-Kesalahan yang terjadi ketika aplikasi sedang dijalankan.
-
-Contohnya:
-
-Melakukan pembagian dengan angka nol.
-Membaca file yang tidak tersedia.
-Mengonversi teks yang tidak sesuai menjadi angka.
-
-Kesalahan ini dapat ditangani dengan menggunakan Try...Catch.
-
-C. Logic Error
-
-Kesalahan yang tidak menyebabkan program berhenti, tetapi menghasilkan keluaran yang tidak sesuai harapan.
-
-Misalnya, program menghitung nilai IPK dengan rumus yang salah sehingga hasil akhirnya tidak akurat.
-
-Untuk menemukan kesalahan jenis ini, diperlukan pengujian terhadap berbagai kondisi input.
-
-4.3 Perbandingan Metode Konversi
-
-VB.NET menyediakan beberapa metode untuk mengubah teks menjadi angka. Masing-masing memiliki karakteristik berbeda.
-
-| Metode | Karakter
+```
